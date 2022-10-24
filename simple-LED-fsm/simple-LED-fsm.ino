@@ -11,7 +11,7 @@ void runState_0(void);
 void runState_1(void);
 void runState_2(void);
 
-typedef void(*stateFunction);
+typedef void(*stateFunction)(void);
 
 constexpr stateFunction stateFunctions[]= { // array of function pointers
   runState_0,
@@ -117,7 +117,7 @@ void loop() {
       state_change_flag = true;
       
       Serial.println("Calling state");  
-      stateFunctions[state]; // call the relevant function
+      stateFunctions[(int)state](); // call the relevant function
     }
   }
   
