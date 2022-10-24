@@ -21,7 +21,7 @@ constexpr stateFunction stateFunctions[]= { // array of function pointers
 };
 
 led_states state = led_states::state_0; // starting state
-bool state_change_flag = false;
+bool state_change_flag = true;
 const long interval = 3000;  // change state after every 3 seconds
 unsigned long current_time, previous_time = 0;
 
@@ -49,50 +49,35 @@ void setup() {
 // state functions
 void runState_0(void){
   Serial.println("State 0");
-  current_time = millis();
-  if((current_time - previous_time >= interval) && state_change_flag == true ){
-    previous_time = current_time; // update time
-    state = led_states::state_1;  // update next state
-    state_change_flag = false;  // update this flag so that the next state knows when to run    
-    
-    // run code because interval has elapsed
-    digitalWrite(blue_led, LOW);
-    delay(500);
-    digitalWrite(green_led, LOW);
-    delay(500);
-  }
+
+  state = led_states::state_1;  // update next state
+
+  // run code because interval has elapsed
+  digitalWrite(blue_led, HIGH);
+  delay(500);
 }
 
 void runState_1(void){
   Serial.println("State 1");
   current_time = millis();
-  if((current_time - previous_time >= interval) && state_change_flag == true){
-    previous_time = current_time; // update time
-    state = led_states::state_2;
-    state_change_flag = false;  // update this flag so that the next state knows when to run    
-        
-    digitalWrite(blue_led, HIGH);
-    delay(500);
-    digitalWrite(blue_led, LOW);
-    delay(500);
-  }
+
+  state = led_states::state_2;
+    
+  digitalWrite(blue_led, LOW);
+  delay(500);
+
 }
 
 void runState_2(void){
   Serial.println("State 2");
-  current_time = millis();
-  if((current_time - previous_time >= interval) && state_change_flag == true){
-    previous_time = current_time; // update time
-    state = led_states::state_0;  // go back to the original state
-    
-    digitalWrite(green_led, HIGH);
-    delay(500);
-    digitalWrite(green_led, LOW);
-    delay(500);
-  }
+  
+  state = led_states::state_0;  // go back to the original state
+  
+  digitalWrite(blue_led, HIGH);
+  delay(500);
 }
 
-void test(){
+void test_function(){
     digitalWrite(green_led, HIGH);
     delay(1000);
     digitalWrite(green_led, LOW);
